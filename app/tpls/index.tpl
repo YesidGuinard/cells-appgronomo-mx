@@ -8,7 +8,7 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>cells-appgronomo-mx</title>
+  <title>Appgronomo</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
@@ -39,30 +39,19 @@
 
 <body class="fullbleed layout vertical loading">
   <div id="splash">
-      <figure>
       <!-- htmllint attr-name-style="false" -->
-      <svg text-rendering="geometricPrecision" shape-rendering="geometricPrecision" width="112px" viewBox="0 0 56 48" style="white-space: pre;">
-        <title>Loading ...</title>
         <style>
-          svg{
-            height:100%; width:100%; display:block;
+          .i {
+            height:100%; width:100%; display:block; position: absolute; background: white;
           }
-          @keyframes a0_t { 0% { transform: translate(0px,18px); } 100% { transform: translate(0px,18px); } }
-          @keyframes a2_t { 0% { transform: translate(28px,45.717963px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 25% { transform: translate(28px,9.507194px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 50% { transform: translate(28px,45.602968px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 75% { transform: translate(28px,24px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 100% { transform: translate(28px,45.718px); } }
-          @keyframes a1_t { 0% { transform: scale(1,0.399505) translate(-28px,-24px); } 25% { transform: scale(1,0.399505) translate(-28px,-24px); } 50% { transform: scale(1,0.399505) translate(-28px,-24px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 75% { transform: scale(1,1) translate(-28px,-24px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 100% { transform: scale(1,0.399505) translate(-28px,-24px); } }
-          @keyframes a4_t { 0% { transform: translate(28px,6.016862px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 25% { transform: translate(28px,33.073853px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 50% { transform: translate(28px,6px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 75% { transform: translate(28px,42.01551px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 100% { transform: translate(28px,5.97963px); } }
-          @keyframes a3_t { 0% { transform: scale(1,0.997415) translate(-28px,-6px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 25% { transform: scale(1,2.512309) translate(-28px,-6px); animation-timing-function: cubic-bezier(0.42,0,0.58,1); } 50% { transform: scale(1,0.997415) translate(-28px,-6px); } 75% { transform: scale(1,0.997415) translate(-28px,-6px); } 100% { transform: scale(1,0.997415) translate(-28px,-6px); } }
+          #logo {
+            width: 200px; position: absolute; display: block; top: 50%; left: 50%; transform:translate(-50%,-50%);
+          }
         </style>
-        <rect width="56" height="12" fill="#2a86ca" stroke="none" transform__="translate(28,24) translate(-28,-6)" style="animation: a0_t 1s linear both;" />
-        <g style="animation: a2_t 4s linear infinite both;">
-          <rect width="56" height="30" fill="#004481" stroke="none" transform__="translate(28,45.718) scale(1,0.399505) translate(-28,-24)" style="animation: a1_t 4s linear infinite both;" />
-        </g>
-        <g style="animation: a4_t 4s linear infinite both;">
-          <rect width="56" height="12" fill="#2dcccd" stroke="none" transform__="translate(28,6.01686) scale(1,0.997415) translate(-28,-6)" style="animation: a3_t 4s linear infinite both;" />
-        </g>
-      </svg>
+        <div class="i">
+          <img id="logo" src="../resources/images/logo.png">
+        </div>
       <!-- htmllint attr-name-style="$previous" -->
-    </figure>
   </div>
   <div id="app__content"></div>
 
