@@ -1,5 +1,5 @@
 <link rel="import" href="../../../components/cells-atom-navigation-bullets/cells-atom-navigation-bullets.html">
-<dom-module id="login-page">
+<dom-module id="login2-page">
 
     <template>
       <style>
@@ -57,27 +57,26 @@
 
           .bullets {
             position: absolute;
-            display: block;
             width: 100%;
-            bottom: 15vh;
+            bottom: 15vh;    
           }
 
       </style>
       <div id="middle">
-          <img width="240" src="../../resources/images/intro1.png">
-          <p><span class="bold">Nosotros cosechamos</span> <br> información importante <br> para que mejores <br> en <span class="bold">tu agricultura</span></p>
+          <img width="240" src="../../resources/images/intro2.png">
+          <p>Hacemos que el <br> agricultor <span class="bold">crezca y cuide <br> de su tierra</span> para seguir <br> sembrando</p>
       </div>
-      <div class="bullets"><cells-atom-navigation-bullets id="atomNavigationBullets" bullets-length="3" selected-index="0"></cells-atom-navigation-bullets></div>
+      <div class="bullets"><cells-atom-navigation-bullets id="atomNavigationBullets" bullets-length="3" selected-index="1"></cells-atom-navigation-bullets></div>
       <div id="bottom">
         <button id="next" on-click="_next">Siguiente</button>
       </div>
     </template>
   
     <script>
-      class LoginPage extends Polymer.Element {
+      class Login2Page extends Polymer.Element {
   
         static get is() {
-          return 'login-page';
+          return 'login2-page';
         }
   
         // Declare properties for the element's public API
@@ -89,6 +88,6 @@
           this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
         }
       }
-      customElements.define(LoginPage.is, LoginPage);
+      customElements.define(Login2Page.is, Login2Page);
     </script>
   </dom-module>

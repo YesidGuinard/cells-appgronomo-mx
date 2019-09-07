@@ -4,7 +4,10 @@
   "dependencies": {
     "cells-template-paper-drawer-panel": "^11.0.0",
     "web-component-tester": "6.6.0-pre.5",
-    "bbva-spinner": "^1.0.9"
+    "bbva-spinner": "^1.0.9",
+    "cells-component-app-header": "^12.0.3",
+    "cells-atom-navigation-bullets": "^12.0.4",
+    "cells-select": "^12.1.0"
   },
   "resolutions": {
     "polymer": "^2.0.0"

@@ -4,8 +4,9 @@
   window.CellsPolymer.start({
     routes: {
       'login': '/',
-      'another': '/another',
-      'routerExample': '/routerExample/:queryStringToPrettyUrl'
+      'login2': '/2',
+      'login3': '/3',
+      'auth': '/auth'
     }
   });
 }(document));

@@ -34,6 +34,7 @@
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="resources/images/touch/ms-touch-icon-144x144-precomposed.png">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
@@ -45,11 +46,11 @@
             height:100%; width:100%; display:block; position: absolute; background: white;
           }
           #logo {
-            width: 200px; position: absolute; display: block; top: 50%; left: 50%; transform:translate(-50%,-50%);
+            width: 300px; position: absolute; display: block; top: 50%; left: 50%; transform:translate(-50%,-50%);
           }
         </style>
         <div class="i">
-          <img id="logo" src="../resources/images/logo.png">
+          <img id="logo" src="../resources/images/splash.png">
         </div>
       <!-- htmllint attr-name-style="$previous" -->
   </div>

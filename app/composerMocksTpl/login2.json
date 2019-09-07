@@ -10,15 +10,15 @@
     {
       "zone": "app__main",
       "type": "UI",
-      "familyPath": "../elements/login-page",
-      "tag": "login-page",
+      "familyPath": "../elements/login2-page",
+      "tag": "login2-page",
       "properties": {
         "cellsConnections": {
           "out": {
             "navigation-channel": {
               "bind": "next-step-event",
               "link": {
-                "page": "login2"
+                "page": "login3"
               }
             }
           }
