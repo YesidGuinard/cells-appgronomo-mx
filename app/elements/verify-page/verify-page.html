@@ -1,0 +1,83 @@
+<link rel="import" href="../../../components/cells-input-digits/cells-input-digits.html">
+<dom-module id="verify-page">
+
+    <template>
+      <style>
+          #bottom {
+            height: 65px;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 10vh;
+          }
+
+          #next {
+              position: absolute;
+              color: white;
+              background: #3a593d;
+              font-size: 18px;
+              font-family: 'Roboto';
+              left: 50%;
+              padding: 15px;
+              transform: translateX(-50%);
+              bottom: 10%;
+              width: 80%;
+          }
+
+          #middle {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          #middle p {
+              text-align: center;
+          }
+
+          .bold {
+              font-weight: bold;
+          }
+
+          cells-input-digits {
+            margin-top: 50px;
+            --cells-input-digits-button-color: #3a593d;
+          }
+
+      </style>
+      <div id="middle">
+          <!-- <img width="260" src="../../resources/images/start.png"> -->
+          <p>Para verificar tu número, ingresa los 5 dígitos que te llegaron via SMS</p>
+          <cells-input-digits value="{{digits}}" input-fields="5" on-submit-digits="_validate"></cells-input-digits>
+      </div>
+      <!-- <button id="next" on-click="_next">Enviar</button> -->
+    </template>
+  
+    <script>
+      class VerifyPage extends Polymer.Element {
+  
+        static get is() {
+          return 'verify-page';
+        }
+  
+        // Declare properties for the element's public API
+        static get properties() {
+          return {
+            digits: {
+              type: Object
+            }
+          };
+        }
+
+        _validate() {
+          // alert("Should validate "+this.digits)
+          this.dispatchEvent(new CustomEvent("next-step-event",{bubbles:true,composed:true}));
+        }
+
+        _next() {
+          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+        }
+      }
+      customElements.define(VerifyPage.is, VerifyPage);
+    </script>
+  </dom-module>

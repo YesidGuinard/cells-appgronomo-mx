@@ -1,0 +1,317 @@
+<link rel="import" href="../../../components/cells-select/cells-select.html">
+<link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<link rel="import" href="../../../components/coronita-icons/coronita-icons.html">
+<dom-module id="recap-page">
+
+    <template>
+      <style>
+          #bottom {
+            height: 65px;
+            width: 100%;
+            background: #3a593d;
+            text-align: right;
+            position: absolute;
+            bottom: 0;
+          }
+
+          #next {
+              color: white;
+              font-size: 20px;
+              font-family: 'Roboto';
+              top: 50%;
+              transform: translate(-12%,50%);
+          }
+
+          #middle {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            width: 90%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+          }
+
+          #middle p {
+              text-align: center;
+          }
+
+          .bold {
+              font-weight: bold;
+          }
+
+          #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+          }
+
+          .planta {
+            width: 100%;
+            position: absolute;
+            bottom: 15vh;
+          }
+
+          cells-molecule-input {
+            width: 100%;
+            text-align: left;
+            --cells-molecule-input-background-color: none;
+            --cells-molecule-input: {
+              border-radius: 5px;
+              border: 2px solid #c0c0c0;
+              background-color: none;
+            };
+          }
+
+          .row > * {
+            display: inline-block;
+            margin-bottom: 15px;
+          }
+
+          cells-radio-button {
+            vertical-align: middle;
+            width: 15%;
+          }
+
+          label {
+            vertical-align: middle;
+            width: 80%;
+            text-align: left;
+            font-size: 25px;
+          }
+
+          input[type=range] {
+            -webkit-appearance: none;
+            margin: 18px 0;
+            width: 100%;
+          }
+          input[type=range]:focus {
+            outline: none;
+          }
+          input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            animate: 0.2s;
+            /* box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; */
+            background: #DFE4E0;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+          }
+          input[type=range]::-webkit-slider-thumb {
+            /* border: 1px solid #000000; */
+            height: 30px;
+            width: 30px;
+            border-radius: 100%;
+            background: #3A593D;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -14px;
+          }
+          input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #367ebd;
+          }
+          input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+            background: #3071a9;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+          }
+          input[type=range]::-moz-range-thumb {
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+            border: 1px solid #000000;
+            height: 36px;
+            width: 16px;
+            border-radius: 3px;
+            background: #ffffff;
+            cursor: pointer;
+          }
+          input[type=range]::-ms-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            /* animate: 0.2s; */
+            background: transparent;
+            border-color: transparent;
+            border-width: 16px 0;
+            color: transparent;
+          }
+          input[type=range]::-ms-fill-lower {
+            background: #2a6495;
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+          }
+          input[type=range]::-ms-fill-upper {
+            background: #3071a9;
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+          }
+          input[type=range]::-ms-thumb {
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+            border: 1px solid #000000;
+            height: 36px;
+            width: 16px;
+            border-radius: 3px;
+            background: #ffffff;
+            cursor: pointer;
+          }
+
+          #estados {
+            text-align: left;
+          }
+
+          #map {
+            width: 100%;
+            height: 60vh;
+            position: absolute;
+            bottom: 10vh;
+          }
+      </style>
+      <div id="middle">
+          <h2>¿Dónde se ubica tu cosecha?</h2>
+
+          <cells-molecule-input id="search" label="Buscar en el mapa"></cells-molecule-input>
+
+      </div>
+
+      <div id="map"></div>
+
+
+      <div id="bottom">
+        <button id="next" on-click="_next">Siguiente</button>
+      </div>
+    </template>
+    
+  
+    <script>
+      class RecapPage extends Polymer.Element {
+  
+        static get is() {
+          return 'recap-page';
+        }
+  
+        // Declare properties for the element's public API
+        static get properties() {
+          return {
+            republica: {
+              type: Object,
+              observer: function(e) {
+                this.set("Estados",Object.keys(e))
+              },
+              notify: true
+            },
+            Estados: {
+              type: Array
+            },
+            Municipios: {
+              type: Array
+            },
+            Estado: {
+              type: String,
+              observer: function(n) {
+                this.set("Municipios",this.republica[n])
+              }
+            },
+            coords: {
+              type: Object
+            }
+          };
+        }
+
+        ready() {
+          super.ready();
+          let map = new google.maps.Map(this.$.map, {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8
+          });
+
+          let input = this.$.search;
+          let searchBox = new google.maps.places.SearchBox(input);
+
+          // Bias the SearchBox results towards current map's viewport.
+          map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+          });
+
+          var markers = [];
+          // Listen for the event fired when the user selects a prediction and retrieve
+          // more details for that place.
+          searchBox.addListener('places_changed', () => {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+              return;
+            }
+
+            this.set("coords", {
+              lat: places[0].geometry.location.lat(),
+              lng: places[0].geometry.location.lng()
+            })
+
+
+            // Clear out the old markers.
+            markers.forEach(function(marker) {
+              marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach((place)=>{
+              if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+              }
+              var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+              };
+
+              // Create a marker for each place.
+              markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+              }));
+
+              if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+              } else {
+                bounds.extend(place.geometry.location);
+              }
+            });
+            map.fitBounds(bounds);
+          });
+        }
+
+        _Estados() {
+          return Object.keys(this.republica)
+        }
+
+        _Municipios(e) {
+          return this.republica[this.Estado]
+        }
+
+        _showHectarea(e) {
+          this.set("area",+e.target.value);
+        }
+
+        _next() {
+          // console.log(this.coords)
+          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+        }
+      }
+      customElements.define(RecapPage.is, RecapPage);
+    </script>
+  </dom-module>

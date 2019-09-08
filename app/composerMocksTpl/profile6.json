@@ -10,15 +10,15 @@
     {
       "zone": "app__main",
       "type": "UI",
-      "familyPath": "../elements/auth-page",
-      "tag": "auth-page",
+      "familyPath": "../elements/profile6-page",
+      "tag": "profile6-page",
       "properties": {
         "cellsConnections": {
           "out": {
             "navigation-channel": {
               "bind": "next-step-event",
               "link": {
-                "page": "verify"
+                "page": "profile6"
               }
             }
           }

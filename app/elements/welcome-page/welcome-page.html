@@ -1,0 +1,84 @@
+<dom-module id="welcome-page">
+
+    <template>
+      <style>
+          #bottom {
+            height: 65px;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 10vh;
+          }
+
+          #next {
+              position: absolute;
+              color: white;
+              background: #3a593d;
+              font-size: 18px;
+              font-family: 'Roboto';
+              left: 50%;
+              padding: 15px;
+              transform: translateX(-50%);
+              bottom: 10%;
+              width: 80%;
+          }
+
+          #middle {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          #middle p {
+              text-align: center;
+          }
+
+          .bold {
+              font-weight: bold;
+          }
+
+          #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+          }
+
+          .dark {
+            color: #3a593e;
+            font-weight: bold;
+          }
+
+          .light {
+            color: #87a983;
+          }
+      </style>
+      <img id="confetti" src="../../resources/images/confetti.png">
+      <div id="middle">
+          <img width="260" src="../../resources/images/people.png">
+          <p>¡Bienvenido a <span class="dark">App</span><span class="light">grónomo</span>!</p>
+          <p>Te realizaremos unas preguntas para crear tu <span class="bold">perfil de agricultor</span></p>
+      </div>
+      <button id="next" on-click="_next">Empezar</button>
+    </template>
+  
+    <script>
+      class WelcomePage extends Polymer.Element {
+  
+        static get is() {
+          return 'welcome-page';
+        }
+  
+        // Declare properties for the element's public API
+        static get properties() {
+          return {};
+        }
+
+        _next() {
+          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+        }
+      }
+      customElements.define(WelcomePage.is, WelcomePage);
+    </script>
+  </dom-module>

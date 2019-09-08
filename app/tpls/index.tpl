@@ -59,6 +59,7 @@
   <!-- for a11y purposes -->
   <div id="announcer" aria-live="polite"></div>
 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3pEWBlVGY2xNUxDOT4urNtrqoxLCDXK0&libraries=places" async defer></script>
   <script src="vendor/bowser.min.js"></script>
   <script src="scripts/app-bootstrap.js"></script>
   <script src="scripts/app.js" async></script>

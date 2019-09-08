@@ -1,0 +1,91 @@
+<link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<dom-module id="profile2-page">
+
+    <template>
+      <style>
+          #bottom {
+            height: 65px;
+            width: 100%;
+            background: #3a593d;
+            text-align: right;
+            position: absolute;
+            bottom: 0;
+          }
+
+          #next {
+              color: white;
+              font-size: 20px;
+              font-family: 'Roboto';
+              top: 50%;
+              transform: translate(-12%,50%);
+          }
+
+          #middle {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            width: 90%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+          }
+
+          #middle p {
+              text-align: center;
+          }
+
+          .bold {
+              font-weight: bold;
+          }
+
+          #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+          }
+
+          .planta {
+            width: 100%;
+            position: absolute;
+            bottom: 15vh;
+          }
+
+          cells-molecule-input {
+            text-align: left;
+            --cells-molecule-input-background-color: none;
+            --cells-molecule-input: {
+              border-radius: 5px;
+              border: 2px solid #c0c0c0;
+              background-color: none;
+            };
+          }
+      </style>
+      <div id="middle">
+          <h2>¿Cuál es tu edad?</h2>
+          <cells-molecule-input label="Edad" type="number" autofocus></cells-molecule-input>
+      </div>
+      <img class="planta" src="../../resources/images/planta2.png">
+      <div id="bottom">
+        <button id="next" on-click="_next">Siguiente</button>
+      </div>
+    </template>
+  
+    <script>
+      class Profile2Page extends Polymer.Element {
+  
+        static get is() {
+          return 'profile2-page';
+        }
+  
+        // Declare properties for the element's public API
+        static get properties() {
+          return {};
+        }
+
+        _next() {
+          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+        }
+      }
+      customElements.define(Profile2Page.is, Profile2Page);
+    </script>
+  </dom-module>

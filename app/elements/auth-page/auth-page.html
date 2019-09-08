@@ -1,3 +1,7 @@
+<link rel="import" href="../../../components/cells-select/cells-select.html">
+<link rel="import" href="../../../components/coronita-icons/coronita-icons.html">
+<link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="auth-page">
 
     <template>
@@ -23,6 +27,10 @@
               width: 80%;
           }
 
+          #next[disabled] {
+            background: silver;
+          }
+
           #middle {
             position: absolute;
             top: 30%;
@@ -37,30 +45,79 @@
           .bold {
               font-weight: bold;
           }
+          
+          cells-select {
+            width: 35%;
+            display: inline-block;
+            vertical-align: middle;
+            height: 40px;
+          }
+
+          cells-molecule-input {
+            width: 62%;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+          }
 
       </style>
       <div id="middle">
           <img width="260" src="../../resources/images/start.png">
           <p>Para iniciar tu programa de cultivo ingresa un número de 10 dígitos</p>
-          
+          <cells-select id="select" selected="0">
+            <div>+52</div>
+          </cells-select>
+          <cells-molecule-input id="input" on-keyup="_validate" max-length="10"></cells-molecule-input>
       </div>
-      <button id="next" on-click="_next">Enviar</button>
+      <button id="next" on-click="_next" disabled="[[!readyToContinue]]">Enviar</button>
+
+      <cells-generic-dp 
+        id="sendSMS" 
+        host="http://appgronomo.com"
+        body="[[phone]]"
+        headers='{"Access-Control-Allow-Origin":"*"}'
+        method="GET"
+        path="phone-verification">
+      </cells-generic-dp>
     </template>
   
     <script>
       class AuthPage extends Polymer.Element {
-  
         static get is() {
           return 'auth-page';
         }
   
         // Declare properties for the element's public API
         static get properties() {
-          return {};
+          return {
+            phone: {
+              type: Object,
+              value: {
+                phone_number: ""
+              }
+            },
+            readyToContinue: {
+              type: Boolean,
+              value: false
+            }
+          };
+        }
+
+        _validate() {
+          this.set("phone.phone_number", this.$.select.value + "" + this.$.input.value);
+          this.set("readyToContinue", this.$.input.value.length === 10 ? true : false)
         }
 
         _next() {
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.sendSMS
+          console.log(el)
+          // el.addEventListener('request-success', function(e) {
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          // });
+          el.addEventListener('request-error', function(e) {
+            //on error
+          });
+          this.$.sendSMS.generateRequest();
         }
       }
       customElements.define(AuthPage.is, AuthPage);
