@@ -1,4 +1,5 @@
 <link rel="import" href="../../../components/coronita-icons/coronita-icons.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="dashboard-page">
 
   <template>
@@ -181,7 +182,38 @@
       .footer-item img {
         object-fit: contain;
       }
+
+      .top-data {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        color: white;
+        display: flex;
+      }
+
+      .top-data .left {
+        width: 50%;
+        padding: 10px 15px;
+      }
+
+      .top-data .right {
+        width: 50%;
+        padding: 10px 15px;
+        text-align: right;
+        font-size: 30px;
+      }
+
+      .top-data .right img {
+        vertical-align: middle;
+      }
     </style>
+
+    <div class="top-data">
+      <div class="left">[[temperatura]] ºC</div>
+      <div class="right"><img width="40" src="[[icono]]"> [[probabilidadDeLluvia]]%</div>
+    </div>
 
     <div class="weather">
       <img src="../../resources/images/[[weather]]">
@@ -230,6 +262,12 @@
       <div class="footer-item"><img src="../../resources/images/menu/notificaciones_linea.png"></div>
     </div>
 
+    <cells-generic-dp 
+        id="getWeatherData"
+        host="http://api.appgronomo.com"
+        method="GET"
+        path="insights/weather">
+      </cells-generic-dp>
   </template>
 
 
@@ -257,8 +295,34 @@
               {step: 1, title: "Preparar el terreno", desc: "$1,700 por hectárea",solved:false},
               {step: 2, title: "Arado pesado", desc: "$1,700 por hectárea",solved:false}
             ]
+          },
+          temperatura: {
+            type: String,
+            value: "... ºC"
+          },
+          probabilidadDeLluvia: {
+            type: String,
+            value: "...%"
+          },
+          icono: {
+            type: String,
+            value: ""
           }
         };
+      }
+
+      ready() {
+        super.ready();
+        let el = this.$.getWeatherData
+        el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+        el.addEventListener("request-success",(e)=>{
+          this.set("temperatura",e.detail.temperatura)
+          this.set("probabilidadDeLluvia",e.detail.humedad)
+          this.set("icono",e.detail.logo)
+        })
+        el.generateRequest();
       }
 
       _toggle(i) {

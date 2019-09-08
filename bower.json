@@ -12,7 +12,8 @@
     "cells-molecule-input": "^13.3.2",
     "coronita-icons": "^13.4.0",
     "cells-radio-button": "^12.1.1",
-    "cells-generic-dp": "^13.2.0"
+    "cells-generic-dp": "^13.2.0",
+    "cells-animated-amount": "^12.0.2"
   },
   "resolutions": {
     "polymer": "^2.0.0"

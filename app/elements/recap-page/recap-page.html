@@ -1,4 +1,6 @@
 <link rel="import" href="../../../components/coronita-icons/coronita-icons.html">
+<link rel="import" href="../../../components/cells-animated-amount/cells-animated-amount.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="recap-page">
 
     <template>
@@ -95,8 +97,8 @@
 
       <div id="middle">
           <div class="title">
-            <h4>¡Buenas noticias Jorge! <br> Te ayudaremos a mejorar <br> tu producción en un</h4>
-            <span class="percentage">40%</span>
+            <h4>¡Buenas noticias! <br> Te ayudaremos a mejorar <br> tu producción en un</h4>
+            <span class="percentage"><cells-animated-amount end-value="{{performance}}"></cells-animated-amount>%</span>
           </div>
           <div class="objetives">
             <table>
@@ -127,6 +129,12 @@
       <div id="bottom">
         <button id="next" on-click="_next">ENSÉÑAME COMO</button>
       </div>
+    <cells-generic-dp 
+      id="consultPerformance"
+      host="http://api.appgronomo.com"
+      method="GET"
+      path="insights/improvement-opportunity">
+    </cells-generic-dp>
     </template>
     
   
@@ -136,10 +144,38 @@
         static get is() {
           return 'recap-page';
         }
+
+        ready() {
+          super.ready()
+          let el = this.$.consultPerformance
+          el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+          el.addEventListener('request-success', (e) => {
+            console.log(e);
+            this.set("performance",+e.detail*100)
+            this.notifyPath("performance")
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un error en la comunicación con el servidor.")
+          });
+          el.generateRequest();
+        }
   
         // Declare properties for the element's public API
         static get properties() {
-          return {};
+          return {
+            isLoading: {
+              type: Boolean,
+              value: true
+            },
+            performance: {
+              type: Number,
+              value: 0,
+              reflectToAttribute: true,
+              notify: true
+            }
+          };
         }
 
         _next() {
