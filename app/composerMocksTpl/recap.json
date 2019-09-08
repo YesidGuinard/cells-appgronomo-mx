@@ -10,7 +10,7 @@
     {
       "zone": "app__main",
       "type": "UI",
-      "familyPath": "../elements/profile6-page",
+      "familyPath": "../elements/recap-page",
       "tag": "recap-page",
       "properties": {
         "cellsConnections": {
@@ -18,7 +18,7 @@
             "navigation-channel": {
               "bind": "next-step-event",
               "link": {
-                "page": "profile6"
+                "page": "dashboard"
               }
             }
           }

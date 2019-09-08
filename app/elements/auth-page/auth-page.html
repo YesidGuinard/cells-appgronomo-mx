@@ -73,10 +73,9 @@
 
       <cells-generic-dp 
         id="sendSMS" 
-        host="http://appgronomo.com"
+        host="http://api.appgronomo.com"
         body="[[phone]]"
-        headers='{"Access-Control-Allow-Origin":"*"}'
-        method="GET"
+        method="POST"
         path="phone-verification">
       </cells-generic-dp>
     </template>
@@ -111,9 +110,10 @@
         _next() {
           let el = this.$.sendSMS
           console.log(el)
-          // el.addEventListener('request-success', function(e) {
+          el.addEventListener('request-success', function(e) {
+            console.log(e)
             this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
-          // });
+          });
           el.addEventListener('request-error', function(e) {
             //on error
           });

@@ -14,7 +14,8 @@
       'profile3': '/profile3',
       'profile4': '/profile4',
       'profile5': '/profile5',
-      'profile6': '/profile6'
+      'profile6': '/profile6',
+      'recap': '/recap'
     }
   });
 }(document));
