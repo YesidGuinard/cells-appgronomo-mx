@@ -6,6 +6,11 @@
 
     <template>
       <style>
+
+          :host {
+            --cells-molecule-input-field-min-height: 56px;
+          }
+
           #bottom {
             height: 65px;
             width: 100%;
@@ -55,19 +60,31 @@
 
           cells-molecule-input {
             width: 62%;
-            height: 40px;
+            /* min-height: 56px; */
             display: inline-block;
-            vertical-align: middle;
+            /* vertical-align: middle; */
+          }
+
+          /* cells-molecule-input input {
+              height: 56px;
+              vertical-align: middle;
+          } */
+
+          .input-container {
+              display: flex;
+              justify-content: space-between;
           }
 
       </style>
       <div id="middle">
           <img width="260" src="../../resources/images/start.png">
           <p>Para iniciar tu programa de cultivo ingresa un número de 10 dígitos</p>
-          <cells-select id="select" selected="0">
-            <div>+52</div>
-          </cells-select>
-          <cells-molecule-input id="input" on-keyup="_validate" max-length="10"></cells-molecule-input>
+          <div class="input-container">
+              <cells-select id="select" selected="0">
+                <div>+52</div>
+              </cells-select>
+              <cells-molecule-input id="input" on-keyup="_validate" max-length="10" label="Telefono"></cells-molecule-input>
+          </div>
       </div>
       <button id="next" on-click="_next" disabled="[[!readyToContinue]]">Enviar</button>
 
