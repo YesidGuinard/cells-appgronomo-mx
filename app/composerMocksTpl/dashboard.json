@@ -1,0 +1,29 @@
+{
+  "template": {
+    "tag": "cells-template-paper-drawer-panel",
+    "properties": {
+      "disableEdgeSwipe": true,
+      "headerFixed": true
+    }
+  },
+  "components": [
+    {
+      "zone": "app__main",
+      "type": "UI",
+      "familyPath": "../elements/dashboard-page",
+      "tag": "dashboard-page",
+      "properties": {
+        "cellsConnections": {
+          "out": {
+            "navigation-channel": {
+              "bind": "next-step-event",
+              "link": {
+                "page": "dashboard"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

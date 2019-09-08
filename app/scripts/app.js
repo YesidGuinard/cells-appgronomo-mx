@@ -15,7 +15,8 @@
       'profile4': '/profile4',
       'profile5': '/profile5',
       'profile6': '/profile6',
-      'recap': '/recap'
+      'recap': '/recap',
+      'dashboard': '/dashboard'
     }
   });
 }(document));

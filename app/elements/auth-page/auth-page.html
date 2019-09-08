@@ -109,13 +109,12 @@
 
         _next() {
           let el = this.$.sendSMS
-          console.log(el)
+          window.localStorage.setItem("phone",this.phone.phone_number)
           el.addEventListener('request-success', function(e) {
-            console.log(e)
             this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
           });
           el.addEventListener('request-error', function(e) {
-            //on error
+            alert("Ocurrió un problema en la comunicación con el servidor.")
           });
           this.$.sendSMS.generateRequest();
         }

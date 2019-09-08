@@ -1,6 +1,7 @@
 <link rel="import" href="../../../components/cells-select/cells-select.html">
 <link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
 <link rel="import" href="../../../components/coronita-icons/coronita-icons.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="profile6-page">
 
     <template>
@@ -186,6 +187,14 @@
       <div id="bottom">
         <button id="next" on-click="_next">Siguiente</button>
       </div>
+
+      <cells-generic-dp 
+        id="sendCoords"
+        host="http://api.appgronomo.com"
+        body="[[data]]"
+        method="POST"
+        path="location">
+      </cells-generic-dp>
     </template>
     
   
@@ -309,7 +318,21 @@
 
         _next() {
           // console.log(this.coords)
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.sendCoords
+          el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+          this.set("data",{
+            latitude: this.coords.lat,
+            longitude: this.coords.lng
+          })
+          el.addEventListener('request-success', function(e) {
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un error en la comunicación con el servidor.")
+          });
+          el.generateRequest();
         }
       }
       customElements.define(Profile6Page.is, Profile6Page);

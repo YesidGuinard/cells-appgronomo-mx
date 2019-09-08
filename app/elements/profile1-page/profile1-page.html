@@ -1,4 +1,5 @@
 <link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="profile1-page">
 
     <template>
@@ -52,22 +53,30 @@
 
           cells-molecule-input {
             text-align: left;
+            --cells-molecule-input-background-color: none;
             --cells-molecule-input: {
               border-radius: 5px;
               border: 2px solid #c0c0c0;
               background-color: none;
             };
-            --cells-molecule-input-background-color: none;
           }
       </style>
       <div id="middle">
           <h2>¿Cuál es tu nombre?</h2>
-          <cells-molecule-input label="Nombre" autofocus></cells-molecule-input>
+          <cells-molecule-input label="Nombre" autofocus value="{{nombre.first_name}}"></cells-molecule-input>
       </div>
       <img class="planta" src="../../resources/images/planta1.png">
       <div id="bottom">
         <button id="next" on-click="_next">Siguiente</button>
       </div>
+
+      <cells-generic-dp 
+        id="sendName" 
+        host="http://api.appgronomo.com"
+        body="[[nombre]]"
+        method="POST"
+        path="user">
+      </cells-generic-dp>
     </template>
   
     <script>
@@ -79,11 +88,26 @@
   
         // Declare properties for the element's public API
         static get properties() {
-          return {};
+          return {
+            nombre: {
+              type: Object,
+              value: {first_name:""}
+            }
+          };
         }
 
         _next() {
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.sendName
+          el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+          el.addEventListener('request-success', function(e) {
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un error en la comunicación con el servidor.")
+          });
+          el.generateRequest();
         }
       }
       customElements.define(Profile1Page.is, Profile1Page);

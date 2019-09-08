@@ -1,5 +1,6 @@
 <link rel="import" href="../../../components/cells-radio-button/cells-radio-button.html">
 <link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="profile5-page">
 
     <template>
@@ -169,6 +170,13 @@
       <div id="bottom">
         <button id="next" on-click="_next">Siguiente</button>
       </div>
+      <cells-generic-dp 
+        id="sendProduction"
+        host="http://api.appgronomo.com"
+        body="[[data]]"
+        method="POST"
+        path="crop">
+      </cells-generic-dp>
     </template>
   
     <script>
@@ -193,7 +201,20 @@
         }
 
         _next() {
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.sendProduction
+          el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+          this.set("data",{
+            production: +this.area
+          })
+          el.addEventListener('request-success', function(e) {
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un error en la comunicación con el servidor.")
+          });
+          el.generateRequest();
         }
       }
       customElements.define(Profile5Page.is, Profile5Page);

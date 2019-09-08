@@ -1,5 +1,6 @@
 <link rel="import" href="../../../components/cells-radio-button/cells-radio-button.html">
 <link rel="import" href="../../../components/cells-molecule-input/cells-molecule-input.html">
+<link rel="import" href="../../../components/cells-generic-dp/cells-generic-dp.html">
 <dom-module id="profile3-page">
 
     <template>
@@ -81,15 +82,23 @@
       </style>
       <div id="middle">
           <h2>¿Qué cultivas?</h2>
-          <div class="row"><label for="maiz">Maíz</label><cells-radio-button id="maiz" checked="[[options.0]]"></cells-radio-button></div>
-          <div class="row"><label for="trigo">Trigo</label><cells-radio-button id="trigo" checked="[[options.1]]"></cells-radio-button></div>
-          <div class="row"><cells-molecule-input label="Otro"></cells-molecule-input></div>
+          <div class="row"><label for="maiz">Maíz</label><cells-radio-button id="maiz0" checked="[[options.0]]"></cells-radio-button></div>
+          <div class="row"><label for="trigo">Trigo</label><cells-radio-button id="trigo1" checked="[[options.1]]"></cells-radio-button></div>
+          <div class="row"><cells-molecule-input label="Otro" value="{{other}}"></cells-molecule-input></div>
           <!-- <cells-radio-button id="trigo" class$="[[class]]"></cells-radio-button> -->
       </div>
       <img class="planta" src="../../resources/images/planta3.png">
       <div id="bottom">
         <button id="next" on-click="_next">Siguiente</button>
       </div>
+
+      <cells-generic-dp 
+        id="sendName"
+        host="http://api.appgronomo.com"
+        body="[[data]]"
+        method="POST"
+        path="crop">
+      </cells-generic-dp>
     </template>
   
     <script>
@@ -108,12 +117,31 @@
                 false,
                 false
               ]
+            },
+            data: {
+              type: Object
+            },
+            other: {
+              type: String
             }
           };
         }
 
         _next() {
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.sendName
+          el.headers = {
+            Authorization: "Token " + window.localStorage.getItem("auth_token")
+          }
+          this.set("data",{
+            name: (this.options[0] === true ? "maiz" : "trigo")
+          })
+          el.addEventListener('request-success', function(e) {
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un error en la comunicación con el servidor.")
+          });
+          el.generateRequest();
         }
       }
       customElements.define(Profile3Page.is, Profile3Page);

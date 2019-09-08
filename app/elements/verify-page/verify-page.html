@@ -47,10 +47,17 @@
       </style>
       <div id="middle">
           <!-- <img width="260" src="../../resources/images/start.png"> -->
-          <p>Para verificar tu número, ingresa los 5 dígitos que te llegaron via SMS</p>
-          <cells-input-digits value="{{digits}}" input-fields="5" on-submit-digits="_validate"></cells-input-digits>
+          <p>Para verificar tu número, ingresa los 6 dígitos que te llegaron via SMS</p>
+          <cells-input-digits value="{{data.code}}" input-fields="6" on-submit-digits="_next"></cells-input-digits>
       </div>
       <!-- <button id="next" on-click="_next">Enviar</button> -->
+      <cells-generic-dp 
+        id="verifySMS" 
+        host="http://api.appgronomo.com"
+        body="[[data]]"
+        method="POST"
+        path="verify">
+      </cells-generic-dp>
     </template>
   
     <script>
@@ -63,19 +70,28 @@
         // Declare properties for the element's public API
         static get properties() {
           return {
-            digits: {
-              type: Object
+            data: {
+              type: Object,
+              value: {
+                phone_number: window.localStorage.getItem("phone"),
+                code: ""
+              }
             }
           };
         }
 
-        _validate() {
-          // alert("Should validate "+this.digits)
-          this.dispatchEvent(new CustomEvent("next-step-event",{bubbles:true,composed:true}));
-        }
-
         _next() {
-          this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          let el = this.$.verifySMS
+          this.set("data.code",+this.data.code)
+          el.addEventListener('request-success', function(e) {
+            let token = e.detail.auth_token;
+            window.localStorage.setItem("auth_token",token)
+            this.dispatchEvent(new CustomEvent("next-step-event",{composed:true,bubbles:true}));
+          });
+          el.addEventListener('request-error', function(e) {
+            alert("Ocurrió un problema en la comunicación con el servidor.")
+          });
+          el.generateRequest();
         }
       }
       customElements.define(VerifyPage.is, VerifyPage);
